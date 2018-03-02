@@ -34,6 +34,9 @@ sudo rm -rf signal-desktop-${SIGNAL_VERSION} || fail "Couldn't remove signal-des
 sudo alien --to-rpm --generate signal-desktop_${SIGNAL_VERSION}_${ALIEN_TARGET}.deb || fail "Failed to create RPM source directory."
 pushd signal-desktop-${SIGNAL_VERSION} || fail "signal-desktop-${SIGNAL_VERSION} does not exist."
 sudo sed -i'' 's/^Summary: $/Summary: Signal Desktop Client/' signal-desktop-*.spec || fail "Failed to run sed on signal-desktop-*.spec."
+sudo sed -i'' 's/Group: Converted\/default/\0\nAutoReqProv: no/' signal-desktop-*.spec || fail "Failed to run sed on signal-desktop-*.spec (#2)."
+sudo cp signal-desktop-*.spec{,.bak}
+cat signal-desktop-*.spec.bak | grep -v '%dir "/usr' | grep -v '%dir "/"' | sudo tee signal-desktop-*.spec
 
 sudo rpmbuild --nodeps -bb --buildroot $(pwd) signal-desktop-*.spec || fail "Failed to run rpmbuild."
 
