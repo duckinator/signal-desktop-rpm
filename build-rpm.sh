@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SIGNAL_VERSION=1.12.0
+SIGNAL_VERSION=1.15.5
 ALIEN_TARGET=amd64
 
 DIR="$(readlink -e $(dirname $0))"
